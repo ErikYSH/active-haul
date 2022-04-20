@@ -9,7 +9,7 @@ A e-commerce site primary focus on active wears. We see a lot of e-commerce host
 ## ERD
 
 ## WireFrame
-![Wireframe](/ImageFile/WireFrame_1.png "Wire Frame_1")
+![Wireframe](/readme_img/Wireframe1-11.jpg "Wire Frame_1")
 
 ## Technology Used
 Python| Django| JavaScript | HTML | PostgreSQL | Bootstrap | CSS |
