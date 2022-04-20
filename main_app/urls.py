@@ -3,5 +3,5 @@ from . import views
 
 # this like app.use() in express
 urlpatterns = [
-
+    path('', views.home, name='home'),
 ]
