@@ -23,7 +23,7 @@ class MyAccountManager(BaseUserManager):
         return user
     
     def create_superuser (self, email, username, password):
-        user=self.create_user(
+        user = self.create_user(
             email=self.normalize_email(email), # help remove the problem of user input lowercase
             username = username,
             password=password,
@@ -43,7 +43,7 @@ class Account(AbstractBaseUser):
     username = models.CharField(max_length=30 , unique=True)
     bio = models.TextField(max_length=350)
     created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True)
-    last_login = models.DateTimeField(verbose_name='created_at', auto_now=True)
+    last_login = models.DateTimeField(verbose_name='last_login', auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -53,7 +53,7 @@ class Account(AbstractBaseUser):
     objects = MyAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELD = ['username']
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.username
