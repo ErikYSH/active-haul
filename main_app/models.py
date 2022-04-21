@@ -1,4 +1,6 @@
 
+from pyexpat import model
+from sre_constants import CATEGORY
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # Create your models here.
@@ -34,7 +36,6 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
 def get_profile_image_filepath(self, filename):
     return f'profile_img/{self.pk}/{"profile_img.png"}'
 
@@ -63,3 +64,44 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+MAIN_CATEGORY = {
+    ('Womens', 'Womens'),
+    ('Mens', 'Mens'),
+    ('Accessories', 'Accessories'),
+}
+
+CATEGORY = {
+    ('Bottoms', 'Bottoms'),
+    ('Joggers', 'Joggers'),
+    ('Leggings', 'Leggings'),
+    ('Shorts', 'Shorts'),
+    ('T-shirts & Tops', 'T-shirt & Tops'),
+    ('Hoddies & Jackets', 'Hoddies & Jackets'),
+    ('Crop Tops', 'Crop Tops'),
+    ('Sports Bras', 'Sports Bras'),
+    ('Tank Tops', 'Tank Tops'),
+    ('Gym Bags', 'Gym Bags'),
+    ('Headwears', 'Headwears'),
+    ('Equipments', 'Equipments'),
+}
+
+CONDITIONS ={
+    ('New', 'New'),
+    ('Used - Like New', 'Used - Like New'),
+    ('Used - Good', 'Used - Good'),
+    ('Used - Fair', 'Used - Fair'),
+}
+
+
+class Product(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=250)
+    main_category = models.CharField(max_length=30, choices=MAIN_CATEGORY)
+    category = models.CharField(max_length=50, choices=CATEGORY)
+    size = models.CharField(max_length=20)
+    color = models.CharField(max_length=30)
+    image = models.ImageField(upload_to='images/' , null=True, blank=True)
+    price = models.IntegerField()
+    coditions = models.CharField(max_length=20, choices=CONDITIONS)
+     
