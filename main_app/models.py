@@ -1,8 +1,6 @@
-
-from pyexpat import model
-from sre_constants import CATEGORY
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.conf import settings
 # Create your models here.
 
 
@@ -103,5 +101,10 @@ class Product(models.Model):
     color = models.CharField(max_length=30)
     image = models.ImageField(upload_to='images/' , null=True, blank=True)
     price = models.IntegerField()
-    coditions = models.CharField(max_length=20, choices=CONDITIONS)
+    conditions = models.CharField(max_length=20, choices=CONDITIONS)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
      
+
