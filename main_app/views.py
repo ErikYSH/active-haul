@@ -29,7 +29,33 @@ class Products_Index(TemplateView):
             context['products'] = products
         return context
 
+class Products_Womens(TemplateView):
+    template_name = 'product_womens.html'
+    def get_context_data(self, **kwargs) :
+        context = super().get_context_data(**kwargs)
+        title = self.request.GET.get('title')
+        print(title)
+        user = self.request.user
+        products = Product.objects.filter(user= user.id)
+        if title != None:
+            context['products'] = products.filter(name__icontains=title)
+        else:
+            context['products'] = products
+        return context
 
+class Products_Mens(TemplateView):
+    template_name = 'product_mens.html'
+    def get_context_data(self, **kwargs) :
+        context = super().get_context_data(**kwargs)
+        title = self.request.GET.get('title')
+        print(title)
+        user = self.request.user
+        products = Product.objects.filter(user= user.id)
+        if title != None:
+            context['products'] = products.filter(name__icontains=title)
+        else:
+            context['products'] = products
+        return context
 
 def product_create(request):
     product = Product.objects.all()
@@ -49,6 +75,8 @@ def product_create(request):
     }
     return render (request, 'product_create.html', context)    
 
-
+def product_show(request, product_id):
+    product = Product.objects.get(id=product_id)
+    return render(request, 'product_show.html', {'product':product})
 
 

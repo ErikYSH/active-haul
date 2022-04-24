@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div>
+            <div class="image">--IMAGE--</div>
+            <div class="info">
+                <h1>{{product}}</h1>
+                <h6>{{product.main_category}}</h6>
+                <p>{{product.price}} USD</p>
+                <p>{{product.color}}</p>
+                <p>{{product.size}}</p>
+                <p>{{product.conditions}}</p>
+                <p>{{product.description}}</p>
+            </div>
+        </div>
+        
+    </div>
+</section>
+{% endblock %}
