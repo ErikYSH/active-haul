@@ -57,6 +57,20 @@ class Products_Mens(TemplateView):
             context['products'] = products
         return context
 
+class Products_Accessories(TemplateView):
+    template_name = 'product_accessories.html'
+    def get_context_data(self, **kwargs) :
+        context = super().get_context_data(**kwargs)
+        title = self.request.GET.get('title')
+        print(title)
+        user = self.request.user
+        products = Product.objects.filter(user= user.id)
+        if title != None:
+            context['products'] = products.filter(name__icontains=title)
+        else:
+            context['products'] = products
+        return context
+
 def product_create(request):
     product = Product.objects.all()
     user = request.user

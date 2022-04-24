@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div>
+            <div>
+                <h1>Accessories Product</h1>
+                <hr>
+                <!-- ** Add all category filter Here ** -->
+                {% for product in products %}
+                {% if product.main_category == "Accessories" %}
+                <div>
+                    <a href="{% url 'product_show' product.id %}">
+                        <h1>{{product.title|upper}}</h1>
+                    </a>
+                    <p>{{product.price}} USD</p>
+                    <p>{{product.main_category}}</p>
+                </div>
+                <hr>
+                {% else %}
+                <div></div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section> 
+{% endblock %}
