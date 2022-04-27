@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from .forms import ProductCreationForm, ProductUpdateForm
@@ -99,9 +100,13 @@ def product_show(request, product_id):
 class Product_Update(UpdateView):
     template_name = 'product_update.html'
     model = Product
-    print(Product.id)
     form_class = ProductUpdateForm
     success_url = '/products'
     # def get_success_url(self):
         # return reverse('product_show', kwargs={'id': self.object.id})
         # return HttpResponseRedirect('/products') 
+
+class Product_Delete(DeleteView):
+    model = Product
+    template_name = 'product_delete.html'
+    success_url = '/products'
