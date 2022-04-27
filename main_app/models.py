@@ -40,7 +40,7 @@ def get_profile_image_filepath(self, filename):
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name='email', max_length=100, unique=True)
     username = models.CharField(max_length=30 , unique=True)
-    bio = models.TextField(max_length=350)
+    bio = models.TextField(max_length=350,)
     created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last_login', auto_now=True)
     is_admin = models.BooleanField(default=False)

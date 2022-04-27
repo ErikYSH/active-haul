@@ -1,9 +1,10 @@
-from pyexpat import model
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
-from .forms import ProductCreationForm, ProductUpdateForm
+from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, SignUpForm
 from .models import Product
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -37,7 +38,6 @@ class Products_Womens(TemplateView):
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
         title = self.request.GET.get('title')
-        print(title)
         user = self.request.user
         products = Product.objects.filter(user= user.id)
         if title != None:
@@ -51,7 +51,6 @@ class Products_Mens(TemplateView):
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
         title = self.request.GET.get('title')
-        print(title)
         user = self.request.user
         products = Product.objects.filter(user= user.id)
         if title != None:
@@ -110,3 +109,43 @@ class Product_Delete(DeleteView):
     model = Product
     template_name = 'product_delete.html'
     success_url = '/products'
+
+
+#### AUTHENTICATION
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request, request.POST)
+        if form.is_valid():
+            e = form.cleaned_data['email']
+            p = form.cleaned_data['password']
+            user = authenticate(email=e, password=p)
+            if user is not None: 
+                login(request, user)
+                return HttpResponseRedirect('/home')
+            else: 
+                print('The account has been disabled')
+                return HttpResponseRedirect('/login')
+        else:
+            messages.sucess(request, 'The username and/or password is incorrect')
+            return HttpResponseRedirect('login')
+    else:
+        form = LoginForm()
+        return render(request, 'login.html', {'form':form})
+
+def signup_view(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            print('Hi', user.username)
+            return HttpResponseRedirect('/user/'+str(user.username))
+        else:
+            return render(request, 'signup.html', {'form':form})
+    else:
+        form = SignUpForm()
+        return render(request, 'signup.html', {'form':form})
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
