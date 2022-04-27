@@ -16,11 +16,11 @@ class ProductUpdateForm(forms.ModelForm):
 
     
 class LoginForm(forms.ModelForm):
-    password = forms.CharField(label= 'Password', widget= forms.PasswordInput)
+    password = forms.CharField(label= 'password', widget= forms.PasswordInput)
     
     class Meta:
         model = Account
-        fields = ['email', 'password']
+        fields = ('email', 'password')
     
     def clean(self):
         if self.is_valid:
@@ -41,7 +41,7 @@ class SignUpForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
         try:
-            user = Account.get(email=email)
+            user = Account.objects.get(email=email)
         except Exception as e: 
             return email
         raise forms.ValidationError(f"Email {email} is already in use")

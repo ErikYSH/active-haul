@@ -1,7 +1,9 @@
+from math import prod
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, SignUpForm
-from .models import Product
+from .models import Product, OrderItem, Orders
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -114,32 +116,34 @@ class Product_Delete(DeleteView):
 #### AUTHENTICATION
 def login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request, request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            e = form.cleaned_data['email']
-            p = form.cleaned_data['password']
-            user = authenticate(email=e, password=p)
+            e = form.cleaned_data.get('email')
+            p = form.cleaned_data.get('password')
+            user = authenticate(email = e, password = p)
             if user is not None: 
-                login(request, user)
-                return HttpResponseRedirect('/home')
-            else: 
-                print('The account has been disabled')
-                return HttpResponseRedirect('/login')
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+                else: 
+                    print('The account has been disabled')
+                    return HttpResponseRedirect('/login')
         else:
             messages.sucess(request, 'The username and/or password is incorrect')
-            return HttpResponseRedirect('login')
+            return HttpResponseRedirect('/login')
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form':form})
 
-def signup_view(request):
+def signup_view(request, backend='django.contrib.auth.backends.ModelBackend'):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             print('Hi', user.username)
-            return HttpResponseRedirect('/user/'+str(user.username))
+            # return HttpResponseRedirect('/user/'+str(user.username))
+            return HttpResponseRedirect('/')
         else:
             return render(request, 'signup.html', {'form':form})
     else:
@@ -149,3 +153,20 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    order_item = OrderItem.objects.create(product=product)
+    order_queryset = Orders.objects.filter(user=request.user, is_ordered= False)
+    if order_queryset.exists():
+        order = order_queryset[0]
+        if order.product.filter(product__product_id=product.product_id).exists():
+            order_item.quantity += 1
+            order_item.save()
+        else:
+            order.product.add(order_item)
+    else:
+        ordered_date = timezone.now()
+        order = Orders.objects.create(user=request.user, ordered_date = ordered_date)
+        order.product.add(order_item)
+    return redirect('product', product_id=product_id)

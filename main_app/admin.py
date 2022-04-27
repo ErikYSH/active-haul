@@ -1,6 +1,7 @@
+from atexit import register
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Account, Product
+from .models import Account, OrderItem, Orders, Product
 
 # Register your models here.
 
@@ -15,3 +16,6 @@ class AccountAdmin (UserAdmin):
 
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Product)
+admin.site.register(OrderItem)
+admin.site.register(Orders)
+
