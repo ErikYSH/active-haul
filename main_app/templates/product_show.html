@@ -15,7 +15,9 @@
                 <p>{{product.description}}</p>
             </div>
         </div>
-        
+        <div>
+            <a href="{% url 'product_update' product.id %}">Update</a>
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div>
+            <div>
+                <h1>Update Product </h1>
+                <div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div>
+                            {{form.as_p}}
+                        </div>
+                        <button type="submit">Update</button>
+                        <button> <a href="{% url 'home' %}">Cancel</a></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 
+{% endblock %}

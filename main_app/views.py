@@ -1,8 +1,10 @@
-from django.shortcuts import render
-from .forms import ProductCreationForm
+from django.urls import reverse
+from django.shortcuts import render, get_object_or_404
+from .forms import ProductCreationForm, ProductUpdateForm
 from .models import Product
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
 
@@ -90,7 +92,16 @@ def product_create(request):
     return render (request, 'product_create.html', context)    
 
 def product_show(request, product_id):
+    # products = get_object_or_404(Product, id=id) 
     product = Product.objects.get(id=product_id)
     return render(request, 'product_show.html', {'product':product})
 
-
+class Product_Update(UpdateView):
+    template_name = 'product_update.html'
+    model = Product
+    print(Product.id)
+    form_class = ProductUpdateForm
+    success_url = '/products'
+    # def get_success_url(self):
+        # return reverse('product_show', kwargs={'id': self.object.id})
+        # return HttpResponseRedirect('/products') 
