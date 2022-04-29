@@ -1,4 +1,3 @@
-from math import prod
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
@@ -157,7 +156,7 @@ def logout_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     order_item = OrderItem.objects.create(product=product)
-    order_queryset = Orders.objects.filter(user=request.user, is_ordered= False)
+    order_queryset = Orders.objects.filter(user=request.user, ordered= False)
     if order_queryset.exists():
         order = order_queryset[0]
         if order.product.filter(product__product_id=product.product_id).exists():
@@ -170,3 +169,13 @@ def add_to_cart(request, product_id):
         order = Orders.objects.create(user=request.user, ordered_date = ordered_date)
         order.product.add(order_item)
     return redirect('product', product_id=product_id)
+
+def cart(request):
+    if request.user.is_authenticated:
+        user = request.user
+        order, created = Orders.objects.get_or_create(user=user, ordered=False)
+        items = order.product
+    else:
+        items = []
+    context = {'items':items}
+    return render(request, 'cart_view.html', context)

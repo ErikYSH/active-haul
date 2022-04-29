@@ -15,7 +15,7 @@
                 <p>{{product.description}}</p>
             </div>
         </div>
-        <form action=""></form>
+        <a href="{{ object.add_to_cart_url }}">Add to Cart</a>
         <div>
             <a href="{% url 'product_update' product.id %}">Update</a>
             <a href="{% url 'product_delete' product.id %}">Delete</a>

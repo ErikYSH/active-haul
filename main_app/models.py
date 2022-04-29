@@ -101,14 +101,16 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY)
     size = models.CharField(max_length=20)
     color = models.CharField(max_length=30)
-    image = models.ImageField(upload_to='images/' , null=True, blank=True)
+    image = models.ImageField( null=True, blank=True)
     price = models.IntegerField()
+    slug = models.SlugField()
     conditions = models.CharField(max_length=20, choices=CONDITIONS)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
-    
+
+
     def add_to_cart_url(self):
         return reverse('/add_to_cart', kwargs={
             'product_id':self.product_id
@@ -121,12 +123,12 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.title
+        return f"{self.quantity} of {self.product.title}" 
 
 class Orders(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ManyToManyField(OrderItem)
-    start_date = models.DateTimeField(auto_now_add =True)
+    start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
 

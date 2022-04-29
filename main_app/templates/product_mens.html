@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <section>
     <div class="container">
@@ -8,20 +8,24 @@
                 <h1>Men's All Product</h1>
                 <hr>
                 <!-- ** Add all category filter Here ** -->
-                {% for product in products %}
-                {% if product.main_category == "Mens" %}
-                <div>
-                    <a href="{% url 'product_show' product.id %}">
-                        <h1>{{product.title|upper}}</h1>
-                    </a>
-                    <p>{{product.price}} USD</p>
-                    <p>{{product.main_category}}</p>
+                <div class="row">
+                    {% for product in products %}
+                        {% if product.main_category == "Mens" %}
+                        <div class="col-lg-4">
+                            <img class="thumbnail" src="https://cdn.shopify.com/s/files/1/0156/6146/products/CREST_JOGGER_-_BLACK.A-Edit_ZH_1_885x.jpg?v=1647041946" alt="">
+                            <div class="box-element product">
+                                <a href="{% url 'product_show' product.id %}">
+                                    <h1>{{product.title|upper}}</h1>
+                                </a>
+                                <p>{{product.price}} USD</p>
+                                <p>{{product.main_category}}</p>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div></div> 
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <hr>
-                {% else %}
-                <div></div>
-                {% endif %}
-                {% endfor %}
             </div>
         </div>
     </div>
