@@ -110,10 +110,14 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse("/product", kwargs = {
+            'slug':self.slug
+        })
 
     def add_to_cart_url(self):
         return reverse('/add_to_cart', kwargs={
-            'product_id':self.product_id
+            'product.slug':self.slug
         })
 
 
@@ -121,6 +125,8 @@ class Product(models.Model):
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    ordered = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.quantity} of {self.product.title}" 

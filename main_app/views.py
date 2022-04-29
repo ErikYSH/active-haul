@@ -1,3 +1,4 @@
+from re import template
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
@@ -7,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.generic.base import TemplateView
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
@@ -92,10 +94,14 @@ def product_create(request):
     }
     return render (request, 'product_create.html', context)    
 
-def product_show(request, product_id):
-    # products = get_object_or_404(Product, id=id) 
-    product = Product.objects.get(id=product_id)
-    return render(request, 'product_show.html', {'product':product})
+# def product_show(request, slug):
+#     # products = get_object_or_404(Product, id=id) 
+#     product = Product.objects.get(slug=slug)
+#     return render(request, 'product_show.html', {'product':product})
+
+class Product_Show(DetailView):
+    model = Product
+    template_name = "product_show.html"
 
 class Product_Update(UpdateView):
     template_name = 'product_update.html'
@@ -153,13 +159,13 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def add_to_cart(request, slug):
+    product = get_object_or_404(Product, slug=slug)
     order_item = OrderItem.objects.create(product=product)
     order_queryset = Orders.objects.filter(user=request.user, ordered= False)
     if order_queryset.exists():
         order = order_queryset[0]
-        if order.product.filter(product__product_id=product.product_id).exists():
+        if order.product.filter(product__slug=product.slug).exists():
             order_item.quantity += 1
             order_item.save()
         else:
@@ -168,13 +174,13 @@ def add_to_cart(request, product_id):
         ordered_date = timezone.now()
         order = Orders.objects.create(user=request.user, ordered_date = ordered_date)
         order.product.add(order_item)
-    return redirect('product', product_id=product_id)
+    return redirect('/product', slug=slug)
 
 def cart(request):
     if request.user.is_authenticated:
         user = request.user
         order, created = Orders.objects.get_or_create(user=user, ordered=False)
-        items = order.product
+        items = order.product.all()
     else:
         items = []
     context = {'items':items}
