@@ -105,7 +105,7 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY)
     size = models.CharField(max_length=20)
     color = models.CharField(max_length=30)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField( null=True, blank=True, upload_to='images/',max_length=255)
     price = models.IntegerField()
     slug = models.SlugField(null=False, unique=True)
     conditions = models.CharField(max_length=20, choices=CONDITIONS)
@@ -115,7 +115,7 @@ class Product(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("main_app:product", kwargs = {
+        return reverse("main_app:product", kwargs = { 
             'slug':self.slug
         })
 

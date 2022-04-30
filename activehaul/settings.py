@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+# from dotenv import load_dotenv
+# load_dotenv()
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -48,8 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'main_app',
+    'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -129,21 +132,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
-
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-MEDIA_ROOT = os.path.join (BASE_DIR, 'static/images')
+MEDIA_URL = '/media/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
+
+# MEDIA_ROOT = os.path.join (BASE_DIR, 'static/images')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
+CLOUDINARY_STORAGE = {
+  'CLOUD_NAME':"dy3lkhg3y", 
+  'API_KEY':"569167324955865",
+  'API_SECRET':"X_Sn7qCst5z0T3vSwZEP3GLUTJw",
+  }
 
-cloudinary.config( 
-  cloud_name = "dy3lkhg3y", 
-  api_key = str(os.getenv('API_KEY')), 
-  api_secret = str(os.getenv('API_SECRET')),
-)
+# CLOUDINARY_URL=f"cloudinary://{str(os.getenv('API_KEY'))}:{str(os.getenv('API_SECRET'))}@dy3lkhg3y"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
