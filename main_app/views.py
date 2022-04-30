@@ -1,18 +1,21 @@
-from re import template
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, SignUpForm
 from .models import Account, Product, OrderItem, Orders
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator 
 from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 # Create your views here.
+
+User = get_user_model()
 
 def home(request):
     products = Product.objects.all()
@@ -31,23 +34,23 @@ class Products_Index(TemplateView):
         user = self.request.user
         products = Product.objects.filter(user=user.id)
         if title != None:
-            context['products'] = products.filter(name__icontains=title)
+            context['products'] = Product.objects.filter(title__icontains=title)
         else:
-            context['products'] = products
+            context['products'] = Product.objects.all()
         return context
 
-
+# @method_decorator(login_required, name='dispatch')
 class Products_Womens(TemplateView):
     template_name = 'product_womens.html'
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
         title = self.request.GET.get('title')
         user = self.request.user
-        products = Product.objects.filter(user= user.id)
+        # products = Product.objects.filter(user= user.id)
         if title != None:
-            context['products'] = products.filter(name__icontains=title)
+            context['products'] = Product.objects.filter(title__icontains=title)
         else:
-            context['products'] = products
+            context['products'] = Product.objects.all()
         return context
 
 class Products_Mens(TemplateView):
@@ -58,9 +61,9 @@ class Products_Mens(TemplateView):
         user = self.request.user
         products = Product.objects.filter(user= user.id)
         if title != None:
-            context['products'] = products.filter(name__icontains=title)
+            context['products'] = Product.objects.filter(title__icontains=title)
         else:
-            context['products'] = products
+            context['products'] = Product.objects.all()
         return context
 
 class Products_Accessories(TemplateView):
@@ -70,11 +73,10 @@ class Products_Accessories(TemplateView):
         title = self.request.GET.get('title')
         print(title)
         user = self.request.user
-        products = Product.objects.filter(user= user.id)
         if title != None:
-            context['products'] = products.filter(name__icontains=title)
+            context['products'] = Product.objects.filter(title__icontains=title)
         else:
-            context['products'] = products
+            context['products'] = Product.objects.all()
         return context
 
 def product_create(request):

@@ -2,10 +2,14 @@
 
 {% block content %}
 <section>
-    <div class="container">
-        <div style="display: flex;">
-            <div class="image"><img class="thumbnail" src="https://cdn.shopify.com/s/files/1/0156/6146/products/CREST_JOGGER_-_BLACK.A-Edit_ZH_1_885x.jpg?v=1647041946" alt=""></div>
-            <div class="info">
+    <div class="container" style="display: flex; justify-content: flex-start; flex-direction: row;">
+        <article style=" position: relative; flex-wrap: wrap; width: calc(100% + 1rem);flex: 1 1 0%;">
+            <div class="image" style="border: 1px black solid; position: absolute;">
+                <img class="thumbnail" src="https://cdn.shopify.com/s/files/1/0156/6146/products/CREST_JOGGER_-_BLACK.A-Edit_ZH_1_885x.jpg?v=1647041946" alt="">
+            </div>
+        </article>
+        <article style="position: sticky; width: 32.5rem; margin-left: 4rem;">
+            <div class="info" >
                 <h1>{{product}}</h1>
                 <h6>{{product.main_category}}</h6>
                 <p>{{product.price}} USD</p>
@@ -14,12 +18,14 @@
                 <p>{{product.conditions}}</p>
                 <p>{{product.description}}</p>
             </div>
-            <a href="{% url 'add_to_cart' product.slug %}">Add to Cart</a>
+            <div>
+                <a href="{% url 'add_to_cart' product.slug %}">Add to Cart</a>
+            </div>
             <div>
                 <a href="{% url 'product_update' product.slug %}">Update</a>
                 <a href="{% url 'product_delete' product.slug %}">Delete</a>
             </div>
-        </div>
+        </article>
     </div>
 </section>
 {% endblock %}
