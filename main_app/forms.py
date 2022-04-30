@@ -9,6 +9,7 @@ class ProductCreationForm(forms.ModelForm):
         model = Product 
         fields = ("title", 'description','main_category','category','size','color','image', 'price', 'conditions', 'user')
        
+       
 class ProductUpdateForm(forms.ModelForm):
      class Meta:
         model = Product 

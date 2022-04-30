@@ -1,8 +1,12 @@
+from ast import arg
 from audioop import reverse
+from distutils.command.upload import upload
 from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.conf import settings
+from cloudinary.models import CloudinaryField
+from django.utils.text import slugify
 # Create your models here.
 
 
@@ -101,9 +105,9 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY)
     size = models.CharField(max_length=20)
     color = models.CharField(max_length=30)
-    image = models.ImageField( null=True, blank=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     price = models.IntegerField()
-    slug = models.SlugField()
+    slug = models.SlugField(null=False, unique=True)
     conditions = models.CharField(max_length=20, choices=CONDITIONS)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -119,7 +123,10 @@ class Product(models.Model):
         return reverse('main_app:add_to_cart', kwargs={
             'product.slug':self.slug
         })
-
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Product,self).save(*args, **kwargs)
 
 
 class OrderItem(models.Model):

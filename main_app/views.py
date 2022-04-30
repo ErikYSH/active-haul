@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.utils.text import slugify
 
 # Create your views here.
 
@@ -87,7 +88,8 @@ def product_create(request):
         form = form_class(request.POST)
         if form.is_valid():
             product = form.save(commit=False)
-            product.user = request.user 
+            product.user = request.user
+            product.slug = slugify(product.title)
             product.save()
             return HttpResponseRedirect ('/')
     else:

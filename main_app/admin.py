@@ -13,9 +13,13 @@ class AccountAdmin (UserAdmin):
     list_filter = ()
     fieldsets =()
 
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    prepopulated_fields = {"slug": ("title",)}
+
 
 admin.site.register(Account, AccountAdmin)
-admin.site.register(Product)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(OrderItem)
 admin.site.register(Orders)
 
