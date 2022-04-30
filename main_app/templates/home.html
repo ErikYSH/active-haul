@@ -19,13 +19,16 @@
                     <div class="box-element" style="list-style: none; position: relative;">
                         <a href="{% url 'product_show' product.slug %}">
                             <div class="info-container">
-                                <span>NEW</span>
+                                <span style="color:hsl(0, 0%, 30%);">NEW</span>
                             </div>
                             <div class="title">
                                 <h1>{{product.title|upper}}</h1>
                             </div>
                             <div class="price">
                                 <p>{{product.price}} USD</p>
+                            </div>
+                            <div>
+                                <p>{{product.color}}</p>
                             </div>
                         </a>
                     </div>
