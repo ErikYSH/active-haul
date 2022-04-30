@@ -127,6 +127,9 @@ DATABASES = {
         'NAME': 'activehauldb',
     }
 }
+
+
+
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
@@ -147,7 +150,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+# -----> TURN THIS BACK BEFORE DEPLOY ------> #
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
