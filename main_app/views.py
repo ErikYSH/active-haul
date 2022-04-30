@@ -6,6 +6,7 @@ from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, SignUpForm
 from .models import Account, Product, OrderItem, Orders
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
@@ -34,6 +35,7 @@ class Products_Index(TemplateView):
         else:
             context['products'] = products
         return context
+
 
 class Products_Womens(TemplateView):
     template_name = 'product_womens.html'
