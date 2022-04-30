@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
+{% load cloudinary %}
 {% block content %}
 <section>
     <div class="container" style="display: flex; justify-content: flex-start; flex-direction: row;">
         <article style=" position: relative; flex-wrap: wrap; width: calc(100% + 1rem);flex: 1 1 0%;">
             <div class="image" style="border: 1px black solid; position: absolute;">
-                <img class="thumbnail" src="https://cdn.shopify.com/s/files/1/0156/6146/products/CREST_JOGGER_-_BLACK.A-Edit_ZH_1_885x.jpg?v=1647041946" alt="">
+                <img class="thumbnail" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{product.image}}" alt="{{product.name}}">
             </div>
         </article>
         <article style="position: sticky; width: 32.5rem; margin-left: 4rem;">
