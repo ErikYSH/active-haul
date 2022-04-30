@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, SignUpForm
-from .models import Product, OrderItem, Orders
+from .models import Account, Product, OrderItem, Orders
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -14,13 +14,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # Create your views here.
 
 def home(request):
-    # product = Product.objects.all()
-    product = "hi"
-    user = request.user
+    products = Product.objects.all()
+    print(products)
     context = {
-        'product':product,
+        'products':products,
     }
-    return render(request, 'home.html', {'context': context})
+    return render(request, 'home.html', context)
 
 
 class Products_Index(TemplateView):
@@ -160,21 +159,23 @@ def logout_view(request):
     return HttpResponseRedirect('/')
 
 def add_to_cart(request, slug):
-    product = get_object_or_404(Product, slug=slug)
-    order_item = OrderItem.objects.create(product=product)
-    order_queryset = Orders.objects.filter(user=request.user, ordered= False)
+    products = get_object_or_404(Product, slug=slug)
+    order_item, created = OrderItem.objects.get_or_create(product=products)
+    order_queryset = Orders.objects.filter(user=request.user, ordered=False)
     if order_queryset.exists():
         order = order_queryset[0]
-        if order.product.filter(product__slug=product.slug).exists():
+        if order.product.filter(product__slug=products.slug).exists():
             order_item.quantity += 1
             order_item.save()
+            print(order_item)
         else:
             order.product.add(order_item)
     else:
         ordered_date = timezone.now()
         order = Orders.objects.create(user=request.user, ordered_date = ordered_date)
         order.product.add(order_item)
-    return redirect('/product', slug=slug)
+    return redirect('product_show', slug=slug)
+    # return HttpResponseRedirect('/product')
 
 def cart(request):
     if request.user.is_authenticated:

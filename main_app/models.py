@@ -111,12 +111,12 @@ class Product(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("/product", kwargs = {
+        return reverse("main_app:product", kwargs = {
             'slug':self.slug
         })
 
     def add_to_cart_url(self):
-        return reverse('/add_to_cart', kwargs={
+        return reverse('main_app:add_to_cart', kwargs={
             'product.slug':self.slug
         })
 
@@ -139,5 +139,4 @@ class Orders(models.Model):
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username 
-
+        return self.user.username

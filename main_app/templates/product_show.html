@@ -15,11 +15,13 @@
                 <p>{{product.description}}</p>
             </div>
         </div>
-        <a href="{{ object.add_to_cart_url }}">Add to Cart</a>
+        <!-- <a href="{{ product.object.add_to_cart_url }}">Add to Cart</a> -->
+        <a href="{% url 'add_to_cart' product.slug %}">Add to Cart</a>
         <div>
-            <a href="{% url 'product_update' product.id %}">Update</a>
-            <a href="{% url 'product_delete' product.id %}">Delete</a>
+            <a href="{% url 'product_update' product.slug %}">Update</a>
+            <a href="{% url 'product_delete' product.slug %}">Delete</a>
         </div>
     </div>
 </section>
 {% endblock %}
+
