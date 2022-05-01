@@ -47,11 +47,11 @@ class Products_Womens(TemplateView):
         context = super().get_context_data(**kwargs)
         title = self.request.GET.get('title')
         user = self.request.user
-        # products = Product.objects.filter(user= user.id)
+        products = Product.objects.filter(main_category = "Womens")
         if title != None:
-            context['products'] = Product.objects.filter(title__icontains=title)
+            context['products'] = products.filter(title__icontains=title)
         else:
-            context['products'] = Product.objects.all()
+            context['products'] = products
         return context
 
 class Products_Mens(TemplateView):
@@ -60,11 +60,11 @@ class Products_Mens(TemplateView):
         context = super().get_context_data(**kwargs)
         title = self.request.GET.get('title')
         user = self.request.user
-        products = Product.objects.filter(user= user.id)
+        products = Product.objects.filter(main_category = "Mens")
         if title != None:
-            context['products'] = Product.objects.filter(title__icontains=title)
+            context['products'] = products.filter(title__icontains=title)
         else:
-            context['products'] = Product.objects.all()
+            context['products'] = products
         return context
 
 class Products_Accessories(TemplateView):
@@ -74,10 +74,11 @@ class Products_Accessories(TemplateView):
         title = self.request.GET.get('title')
         print(title)
         user = self.request.user
+        products = Product.objects.filter(main_category = "Accessories")
         if title != None:
-            context['products'] = Product.objects.filter(title__icontains=title)
+            context['products'] = products.filter(title__icontains=title)
         else:
-            context['products'] = Product.objects.all()
+            context['products'] = products
         return context
 
 def product_create(request):
@@ -182,6 +183,14 @@ def add_to_cart(request, slug):
         order.product.add(order_item)
     return redirect('product_show', slug=slug)
     # return HttpResponseRedirect('/product')
+
+def profile(request, username):
+    user = Account.objects.get(username=username)
+    print(user)
+    # userInfo = Account.objects.filter(user=user)
+    # print(userInfo)
+    products = Product.objects.filter(user=user)
+    return render(request, 'profile.html', {'username':username, 'products':products, 'user':user})
 
 def cart(request):
     if request.user.is_authenticated:

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section>
+<section style="margin-bottom: 100px;">
     <div class="MainContent">
         <div class="hero-section">
            <div>
@@ -11,11 +11,12 @@
                </div>
            </div>
         </div>
-        <div class="new-section">
+        <div class="new-section" style="padding: 10px;">
+            <div style="right: 0;"><a href="{% url 'products_index' %}">view all</a></div>
             <div class="row" style="padding: 10px;">
-                {% for product in products %}
+                {% for product in products|slice:":3" %}
                 <div class="col-lg-4">
-                    <img class="thumbnail" src="{% static 'images/placeholder.png'%}" alt="">
+                    <img class="thumbnail" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{product.image}}" alt="{{product.name}}">
                     <div class="box-element" style="list-style: none; position: relative;">
                         <a href="{% url 'product_show' product.slug %}">
                             <div class="info-container">
@@ -35,6 +36,9 @@
                 </div>
                 {% endfor %}
             </div>
+        </div>
+        <div>
+            two section 
         </div>
     </div>
 </section>

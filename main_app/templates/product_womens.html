@@ -10,9 +10,8 @@
                 <!-- ** Add all category filter Here ** -->
                 <div class="row">
                     {% for product in products %}
-                        {% if product.main_category == "Womens" %}
                         <div class="col-lg-4">
-                            <img class="thumbnail" src="{% static 'images/placeholder.png'%}" alt="">
+                            <img class="thumbnail" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{product.image}}" alt="{{product.name}}">
                             <div class="box-element" style="list-style: none; position: relative;">
                                 <a href="{% url 'product_show' product.slug %}">
                                     <div class="info-container">
@@ -30,9 +29,6 @@
                                 </a>
                             </div>
                         </div>
-                        {% else %}
-                        <div></div> 
-                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

@@ -19,15 +19,15 @@ import tkinter
 # Configure Django App for Heroku.
 import django_heroku
 
-
+# tkinter()
 # from dotenv import load_dotenv
 # load_dotenv()
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-DATABASE_URL = os.environ['DATABASE_URL']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+# DATABASE_URL = os.environ['DATABASE_URL']
+# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 # If the host name starts with 'live', DJANGO_HOST = "production"
 if socket.gethostname().startswith('live'):
@@ -133,7 +133,7 @@ DATABASES = {
 }
 
 # -----> TURN THIS BACK BEFORE DEPLOY ------> #
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 
 

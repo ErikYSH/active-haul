@@ -7,8 +7,9 @@
             <div>
                 <h1>Update Product </h1>
                 <div>
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
+                        
                         <div>
                             {{form.as_p}}
                         </div>
