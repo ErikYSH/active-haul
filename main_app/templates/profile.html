@@ -1,21 +1,55 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% block content %}
 
 <section>
-    <h1>{{ username }}'s Profile </h1>
-    
-    <div>
-        <h2>
-            {{user.email}}
-        </h2>
-        {% if user.bio != None %}
-        {{user.bio}}
-        {% else %}
-            <h1>Input</h1>
-        {% endif %}
+    <div class="profileInfo d-flex flex-column align-items-center">
+        <div>
+            <img src="{% static 'images/placeholder.jpg' %}" alt="">
+            <h1>{{ username }}'s Profile </h1>
+        </div>
+            
+        <div>
+            <h2>
+                {{user.email}}
+            </h2>
+            {% if user.bio != None %}
+            {{user.bio}}
+            {% else %}
+                <h1>Input</h1>
+            {% endif %}
+        </div>
     </div>
-    <div class="row" style="padding: 10px;">
+   
+
+    <div>
+        <div class="p-5" >
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td><img class="thumbnail" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/c_scale,h_120,w_100/v1651360159/{{product.image}}" alt="{{product.name}}"></td>
+                        <td>{{ product.title }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.color }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <!-- <div class="row" style="padding: 10px;">
         {% for product in products %}
         <div class="col-lg-4">
             <img class="thumbnail" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{product.image}}" alt="{{product.name}}">
@@ -37,7 +71,7 @@
             </div>
         </div>
         {% endfor %}
-    </div>
+    </div> -->
 </section>
     
 {% endblock %}
