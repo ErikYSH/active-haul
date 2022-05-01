@@ -40,13 +40,13 @@ else:
 # Define general behavior variables for DJANGO_HOST and all others
 if DJANGO_HOST == "production":
     DEBUG = False
-    STATIC_URL = 'https://infinite-ravine-34596.herokuapp.com/'
+    STATIC_URL = 'https://activehaul.herokuapp.com/'
 else:
     DEBUG = True
     STATIC_URL = '/static/'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
