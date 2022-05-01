@@ -15,6 +15,7 @@ dj-database-url = "*"
 whitenoise = "*"
 django-on-heroku = "*"
 django-cloudinary-storage = "*"
+tk = "*"
 
 [dev-packages]
 
