@@ -15,6 +15,9 @@ import os
 import socket
 import psycopg2
 import dj_database_url
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
 
 # from dotenv import load_dotenv
 # load_dotenv()
