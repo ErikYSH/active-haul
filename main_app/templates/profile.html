@@ -6,7 +6,7 @@
 <section>
     <div class="profileInfo d-flex flex-column align-items-center" style=" padding: 30px; background-color: #F6F6F6;" >
         <div class="text-center">
-            <img class="rounded-circle mx-auto d-block img-thumbnail" style="height: 200px; width: 200px;" src="{% static 'images/placeholder.png' %}" alt="">
+            <img class="rounded-circle mx-auto d-block img-thumbnail" style="height: 200px; width: 200px;" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{user.profile_img}}" alt="{{user.username}}">
             <h1 class="pt-3">{{ username }}'s Store </h1>
         </div>
             
@@ -20,6 +20,11 @@
                 {% else %}
                     <h1>Input</h1>
                 {% endif %}
+            </div>
+            <div class="text-center">
+                <button class="btn btn-info">
+                    <a href="{% url 'profile_update' user.id %}" style="color: grey;">Edit</a>
+                </button>
             </div>
         </div>
     </div>

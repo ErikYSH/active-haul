@@ -46,3 +46,8 @@ class SignUpForm(UserCreationForm):
         except Exception as e: 
             return email
         raise forms.ValidationError(f"Email {email} is already in use")
+
+class ProfileUpdate(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ("username", "bio", "profile_img")

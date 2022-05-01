@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, SignUpForm
+from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, ProfileUpdate, SignUpForm
 from .models import Account, Product, OrderItem, Orders
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
@@ -191,6 +191,14 @@ def profile(request, username):
     # print(userInfo)
     products = Product.objects.filter(user=user)
     return render(request, 'profile.html', {'username':username, 'products':products, 'user':user})
+
+class Profile_Update(UpdateView):
+    template_name = 'profile_update.html'
+    model = Account
+    form_class = ProfileUpdate
+    sucess_url = "/profile"
+
+
 
 def cart(request):
     if request.user.is_authenticated:
