@@ -17,7 +17,7 @@ import psycopg2
 import dj_database_url
 # Configure Django App for Heroku.
 import django_heroku
-django_heroku.settings(locals())
+
 
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -131,10 +131,10 @@ DATABASES = {
     }
 }
 
+# -----> TURN THIS BACK BEFORE DEPLOY ------> #
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -153,8 +153,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-# -----> TURN THIS BACK BEFORE DEPLOY ------> #
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -170,6 +169,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 # STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 STATICFILES_DIRS = (
@@ -198,3 +200,4 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+django_heroku.settings(locals())
