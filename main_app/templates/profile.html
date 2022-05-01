@@ -4,27 +4,29 @@
 {% block content %}
 
 <section>
-    <div class="profileInfo d-flex flex-column align-items-center">
-        <div>
-            <img src="{% static 'images/placeholder.jpg' %}" alt="">
-            <h1>{{ username }}'s Profile </h1>
+    <div class="profileInfo d-flex flex-column align-items-center" style=" padding: 30px; background-color: #F6F6F6;" >
+        <div class="text-center">
+            <img class="rounded-circle mx-auto d-block img-thumbnail" style="height: 200px; width: 200px;" src="{% static 'images/placeholder.png' %}" alt="">
+            <h1 class="pt-3">{{ username }}'s Store </h1>
         </div>
             
         <div>
-            <h2>
-                {{user.email}}
-            </h2>
-            {% if user.bio != None %}
-            {{user.bio}}
-            {% else %}
-                <h1>Input</h1>
-            {% endif %}
+            <div style=" padding: 30px;">
+                {% if user.bio != None %}
+                <p>Bio:</p>
+                <h4>
+                    {{user.bio}}
+                </h4>
+                {% else %}
+                    <h1>Input</h1>
+                {% endif %}
+            </div>
         </div>
     </div>
    
 
     <div>
-        <div class="p-5" >
+        <div class="p-5 text-center" >
             <table class="table">
                 <thead>
                     <tr>
