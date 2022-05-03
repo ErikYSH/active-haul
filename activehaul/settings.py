@@ -40,7 +40,7 @@ else:
     DJANGO_HOST = "development"
 # Define general behavior variables for DJANGO_HOST and all others
 if DJANGO_HOST == "production":
-    DEBUG = False
+    DEBUG = True
     STATIC_URL = 'https://activehaul.herokuapp.com/'
 else:
     DEBUG = True

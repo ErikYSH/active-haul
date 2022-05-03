@@ -6,7 +6,11 @@
 <section>
     <div class="profileInfo d-flex flex-column align-items-center" style=" padding: 30px; background-color: #F6F6F6;" >
         <div class="text-center">
-            <img class="rounded-circle mx-auto d-block img-thumbnail" style="height: 200px; width: 200px;" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{user.profile_img}}" alt="{{user.username}}">
+            {% if user.profile_img != None %}
+                <img class="rounded-circle mx-auto d-block img-thumbnail" style="height: 200px; width: 200px;" src="https://res.cloudinary.com/dy3lkhg3y/image/upload/v1651360159/{{user.profile_img}}" alt="{{user.username}}">
+            {% else %}
+                <img class="rounded-circle mx-auto d-block img-thumbnail" style="height: 200px; width: 200px;" src="{% static 'images/placeholder.png' %}" alt="{{user.username}}">
+            {% endif %}
             <h1 class="pt-3">{{ username }}'s Store </h1>
         </div>
             
@@ -29,7 +33,10 @@
         </div>
     </div>
    
-
+    <div class="add d-flex flex-row float-end pt-3" style="padding-right: 10px;">
+        <h4 style="margin-right: 10px;">Sell Product</h4>
+        <button class="btn btn-success "><a href="{% url 'product_create' %}" style="color:white; padding-right: 10px;" ><ion-icon name="add-outline"></ion-icon></a></button>
+    </div>
     <div>
         <div class="p-5 text-center" >
             <table class="table">
@@ -39,6 +46,7 @@
                         <th>Title</th>
                         <th>Price</th>
                         <th>Color</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +56,14 @@
                         <td>{{ product.title }}</td>
                         <td>{{ product.price }}</td>
                         <td>{{ product.color }}</td>
+                        <td><div class="pt-5">
+                            <button class="btn btn-secondary">
+                                <a href="{% url 'product_update' product.slug %}" style="color: white;">Update</a>
+                            </button>
+                            <button class="btn btn-danger">
+                                <a href="{% url 'product_delete' product.slug %}" style="color: white;">Delete</a>
+                            </button>
+                        </div></td>
                     </tr>
                     {% endfor %}
                 </tbody>

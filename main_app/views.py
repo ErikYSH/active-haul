@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .forms import LoginForm, ProductCreationForm, ProductUpdateForm, ProfileUpdate, SignUpForm
@@ -7,10 +8,11 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator 
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.contrib import messages
 from django.views.generic.base import TemplateView
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.text import slugify
 
@@ -20,9 +22,11 @@ User = get_user_model()
 
 def home(request):
     products = Product.objects.all()
+    order = Orders.objects.all()
     print(products)
     context = {
         'products':products,
+        'order':order,
     }
     return render(request, 'home.html', context)
 
@@ -140,7 +144,7 @@ def login_view(request):
                     print('The account has been disabled')
                     return HttpResponseRedirect('/login')
         else:
-            messages.sucess(request, 'The username and/or password is incorrect')
+            messages.success(request, 'The username and/or password is incorrect')
             return HttpResponseRedirect('/login')
     else:
         form = LoginForm()
@@ -177,12 +181,61 @@ def add_to_cart(request, slug):
             print(order_item)
         else:
             order.product.add(order_item)
+        return redirect('cart')
     else:
         ordered_date = timezone.now()
         order = Orders.objects.create(user=request.user, ordered_date = ordered_date)
         order.product.add(order_item)
     return redirect('product_show', slug=slug)
     # return HttpResponseRedirect('/product')
+
+def remove_all_cart(request, slug):
+    products = get_object_or_404(Product, slug=slug)
+    order_queryset = Orders.objects.filter(
+        user=request.user,
+        ordered=False
+    )
+    if order_queryset.exists():
+        order = order_queryset[0]
+        if order.product.filter(product__slug=products.slug).exists():
+            order_item = OrderItem.objects.filter(
+                product=products,
+                user=request.user,
+                ordered=False
+            )[0]
+            order.product.remove(order_item)
+            order_item.delete()
+            return redirect("cart")
+        else:
+            return redirect("product_show", slug=slug)
+    else:
+        return redirect("core:product", slug=slug)
+
+def remove_item_from_cart(request, slug):
+    products = get_object_or_404(Product, slug=slug)
+    order_queryset = Orders.objects.filter(
+        user=request.user,
+        ordered=False
+    )
+    if order_queryset.exists():
+        order = order_queryset[0]
+        # check if the order item is in the order
+        if order.product.filter(product__slug=products.slug).exists():
+            order_item = OrderItem.objects.filter(
+                product=products,
+                user=request.user,
+                ordered=False
+            )[0]
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+            else:
+                order.product.remove(order_item)
+            return redirect("cart")
+        else:
+            return redirect("product_show", slug=slug)
+    else:
+        return redirect("product_show", slug=slug)
 
 def profile(request, username):
     user = Account.objects.get(username=username)
@@ -196,16 +249,32 @@ class Profile_Update(UpdateView):
     template_name = 'profile_update.html'
     model = Account
     form_class = ProfileUpdate
-    sucess_url = "/profile"
+    # def get_success_url(self):
+    #     user = self.request.user
+    #     return reverse('main_app:products')
+    success_url = '/products'
 
 
 
-def cart(request):
-    if request.user.is_authenticated:
-        user = request.user
-        order, created = Orders.objects.get_or_create(user=user, ordered=False)
-        items = order.product.all()
-    else:
-        items = []
-    context = {'items':items}
-    return render(request, 'cart_view.html', context)
+# def cart(request):
+#     if request.user.is_authenticated:
+#         user = request.user
+#         order, created = Orders.objects.get_or_create(user=user, ordered=False)
+#         items = order.product.all()
+#     else:
+#         items = []
+#     context = {'items':items}
+#     return render(request, 'cart_view.html', context)
+
+# @method_decorator(login_required, name='dispatch')
+class Cart(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Orders.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'order':order
+            }
+            return render(self.request, 'cart_view.html', context)
+        except ObjectDoesNotExist:
+            # messages 
+            return redirect('/')

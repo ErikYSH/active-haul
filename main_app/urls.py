@@ -9,6 +9,8 @@ urlpatterns = [
     path('products/mens', views.Products_Mens.as_view(), name='products_mens'),
     path('products/accessories', views.Products_Accessories.as_view(), name='products_accessories'),
     path('products/create', views.product_create, name="product_create"),
+    # path('products/cart/', views.cart, name='cart'),
+    path('products/cart/', views.Cart.as_view(), name='cart'),
     # path('products/<slug>', views.product_show, name='product_show'),
     path('products/<slug>', views.Product_Show.as_view(), name='product_show'),
     path('products/<slug>/update', views.Product_Update.as_view(), name='product_update'),
@@ -21,5 +23,7 @@ urlpatterns = [
     path('user/<int:pk>/update', views.Profile_Update.as_view(), name="profile_update"),
     
     path('add_to_cart/<slug>/', views.add_to_cart, name='add_to_cart'),
-    path('products/cart', views.cart, name='cart'),
+    path('remove_all_cart/<slug>/', views.remove_all_cart, name='remove_all_cart'),
+    path('remove_item_from_cart/<slug>/', views.remove_item_from_cart, name='remove_item_from_cart'),
+  
 ]

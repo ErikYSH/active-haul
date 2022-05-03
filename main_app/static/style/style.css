@@ -21,19 +21,22 @@ a {
 section {
 	margin-top: 20px;
 }
-footer {
-	/* position: absolute; */
+/* footer {
+	position: relative;
     left: 0;
     bottom: 0;
     height: 100px;
     width: 100%;
-    /* overflow: hidden; */
-}
+    overflow: hidden;
+} */
 .hero {
 	height: 100%;
 	width: 100%;
 	position: relative;
 }
+
+
+
 
 .price {
 	position: absolute;
@@ -142,3 +145,17 @@ h1,h2,h3,h4,h5,h6,p{
 	display: none!important;
 }
 
+.btnImg{
+	position: absolute;
+	top: 90%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%, -50%);
+}
+.btnImg button {
+	padding: 12px 24px;
+	margin: 10px;
+	background-color: grey;
+	border-radius: 3rem;
+	border: none;
+}
