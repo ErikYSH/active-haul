@@ -1,7 +1,7 @@
 # active-haul
 
 ## Table of Content
-- [WireFrame](#WireFrame)
+- [WireFrame](#WireFrame2)
 - [Future] (#future-enhancement)
 
 ## About
