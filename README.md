@@ -1,13 +1,14 @@
 # active-haul
 
 ## Table of Content
-- [WireFrame](#WireFrame2)
-- [Future] (#future-enhancement)
+- [UserStoires](#user-stories)
+- [WireFrame](#WireFrame)
+- [Future](#future-enhancement)
 
 ## About
 A e-commerce site primary focus on active wears. We see a lot of e-commerce hosting multiple product in different category but very few focus on GYM clothes. In this web application, user will be able to clear out their closet full of unused gym clothes and find a new home. 
 
-## User Stories (As a User)
+## User Stories
 ##### Login/ Signup
 * AAU, I will be prompt to enter login if any purchase, profile is involved
 * AAU, if I have no account I can sign up to be a user
