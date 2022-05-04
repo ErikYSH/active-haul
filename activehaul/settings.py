@@ -15,11 +15,9 @@ import os
 import socket
 import psycopg2
 import dj_database_url
-import tkinter
 # Configure Django App for Heroku.
 import django_heroku
 
-# tkinter()
 # from dotenv import load_dotenv
 # load_dotenv()
 import cloudinary
