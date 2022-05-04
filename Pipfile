@@ -16,6 +16,7 @@ whitenoise = "*"
 django-on-heroku = "*"
 django-cloudinary-storage = "*"
 tk = "*"
+pillow = "*"
 
 [dev-packages]
 
