@@ -3,9 +3,9 @@
 ## Table of Content
 - [User_Stoires](#user-stories)
 - [ERD](#ERD)
-- [Wire_Frame](#WireFrame)
-- [Technology_Used](#technology-used)
-- [Future_Enhancement](#future-enhancement)
+- [Wire Frame](#WireFrame)
+- [Technology Used](#technology-used)
+- [Future Enhancement](#future-enhancement)
 
 ## About
 A e-commerce site primary focus on active wears. We see a lot of e-commerce hosting multiple product in different category but very few focus on GYM clothes. In this web application, user will be able to clear out their closet full of unused gym clothes and find a new home. 
