@@ -1,7 +1,8 @@
 # active-haul
 
 ## Table of Content
-- [Future] (#Future)
+- [WireFrame](#WireFrame)
+- [Future] (#future-enhancement)
 
 ## About
 A e-commerce site primary focus on active wears. We see a lot of e-commerce hosting multiple product in different category but very few focus on GYM clothes. In this web application, user will be able to clear out their closet full of unused gym clothes and find a new home. 
