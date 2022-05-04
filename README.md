@@ -35,7 +35,7 @@ A e-commerce site primary focus on active wears. We see a lot of e-commerce host
 ## Technology Used
 Python| Django| JavaScript | HTML | PostgreSQL | Bootstrap | CSS |
 
-## ![Future]Future Enhancement 
+## ![Future] (Future Enhancement)
 * Checkout Function 
 * Payment Process 
 * Live Chat Customer Support 
