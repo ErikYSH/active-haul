@@ -1,7 +1,7 @@
 # active-haul
 
 ## Table of Content
-- [User_Stoires](#user-stories)
+- [User Stoires](#user-stories)
 - [ERD](#ERD)
 - [Wire Frame](#WireFrame)
 - [Technology Used](#technology-used)
