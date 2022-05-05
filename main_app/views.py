@@ -168,7 +168,8 @@ def signup_view(request, backend='django.contrib.auth.backends.ModelBackend'):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
-
+    
+@login_required
 def add_to_cart(request, slug):
     products = get_object_or_404(Product, slug=slug)
     order_item, created = OrderItem.objects.get_or_create(product=products)
